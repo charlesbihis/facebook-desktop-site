@@ -1,4 +1,3 @@
+bin-release/*
 bin-debug/*
-!bin-debug/Main.swf
-
 html-template/*
