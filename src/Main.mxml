@@ -15,10 +15,9 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			[Bindable] private var getAirText:String = "<sup>*</sup>Requires Adobe AIR.  Get it <a href='http://get.adobe.com/air/' target='_blank'><font color='#444444'>here</font></a>.";
-			[Bindable] private var version:String = "<sup>*</sup>current version is ";
-			[Bindable] private var footerText:String = "Copyright 2012 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
-			
+			private var footerText:String = "Copyright 2012 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
+			private var downloadHtmlText:String = "If the button above doesn't work, download the installer <font color='#444444'><u><a href='/download.php?src=linkBelowBadge'>here</a></u></font>!";
+			private var downloadAirText:String = "Requires Adobe AIR.  You can get that <font color='#444444'><u><a href='http://get.adobe.com/air/' target='_blank'>here</a></u></font>.";
 			private var videoShowing:Boolean;
 			
 			private function init():void
@@ -28,7 +27,7 @@
 				// listen for when to display video
 				facebookOnYourDesktop.addEventListener("SHOW_VIDEO", showVideo);
 				
-				// places the download button
+				// place the download button
 				var loader:SWFLoader = new SWFLoader();
 				loader.addEventListener(Event.COMPLETE, function(event:Event):void {
 					var content:DisplayObject = loader.content;
@@ -38,8 +37,10 @@
 				});
 				loader.load("installer/badge.swf");
 				
-				// retrieves the current version in production right now
-		        versionCheck.send();
+				// set the appropriate text fields
+				downloadText.htmlText = downloadHtmlText;
+				downloadAir.htmlText = downloadAirText;
+				footer.htmlText = footerText;
 				
 				function showVideo():void
 				{
@@ -67,25 +68,6 @@
 					}  // closeVideo
 				}  // showVideo
 			}  // init
-			
-			private function versionCheckHandler(event:ResultEvent):void
-			{
-				var versionString:String = event.result.*[0].toString();
-				
-				if (versionString != null && versionString.length > 0)
-				{
-					version += "<font color='#666666'>" + event.result.*[0].toString() + "</font>";
-					versionText.visible = true;
-					versionText.includeInLayout = true;
-				}  // if statement
-			}  // versionCheckHandler
-			
-			private function onFault(event:FaultEvent):void
-			{
-				version = "";
-				versionText.visible = false;
-				versionText.includeInLayout = false;
-			}  // onFault
 		]]>
 	</mx:Script>
 	
@@ -143,8 +125,6 @@
 		</mx:Transition>
 	</mx:transitions>
 	
-	<mx:HTTPService id="versionCheck" url="download/version.xml" resultFormat="e4x" result="versionCheckHandler(event)" fault="onFault(event)" />
-	
 	<mx:VBox height="100%" width="100%" verticalGap="0" horizontalAlign="center">
 		
 		<mx:VBox id="header" width="100%" backgroundColor="white" horizontalAlign="center">
@@ -163,7 +143,8 @@
 					<components:Connect id="connect" alpha="0" />
 				</mx:ViewStack>
 				<mx:VBox id="downloadButtonBox" x="500" y="250" />
-				<mx:Text id="versionText" x="550" y="295" htmlText="{version}" color="0x999999" fontSize="9" textAlign="center" includeInLayout="false" visible="false" />
+				<mx:Text id="downloadText" x="460" y="295" color="0x999999" fontSize="9" textAlign="center" />
+				<mx:Text id="downloadAir" x="500" y="310" color="0x999999" fontSize="9" textAlign="center" />
 			</mx:Canvas>
 			<mx:HBox width="100%" height="100" verticalScrollPolicy="off" horizontalAlign="center" horizontalGap="50">
 				<mx:VBox horizontalAlign="center">
@@ -203,7 +184,7 @@
 		<mx:Spacer maxHeight="55" height="100%" />
 		
 		<mx:VBox width="100%" horizontalAlign="center">
-			<mx:Text htmlText="{footerText}" color="0x999999" fontSize="9" textAlign="center" />
+			<mx:Text id="footer" color="0x999999" fontSize="9" textAlign="center" />
 		</mx:VBox>
 		
 	</mx:VBox>
