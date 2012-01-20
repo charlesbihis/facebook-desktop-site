@@ -5,17 +5,19 @@
 	layout="vertical" horizontalAlign="center"
 	paddingTop="25" backgroundGradientColors="[0xFFFFFF, 0xFFFFFF]"
 	creationComplete="init()">
-
+	
 	<mx:Script>
 		<![CDATA[
 			import com.facebookdesktop.components.VideoWindow;
+			
+			import mx.controls.SWFLoader;
 			import mx.managers.PopUpManager;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			[Bindable] private var getAirText:String = "<sup>*</sup>Requires Adobe AIR.  Get it <a href='http://get.adobe.com/air/' target='_blank'><font color='#444444'>here</font></a>.";
 			[Bindable] private var version:String = "<sup>*</sup>current version is ";
-			[Bindable] private var footerText:String = "Copyright 2010 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
+			[Bindable] private var footerText:String = "Copyright 2012 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
 			
 			private var videoShowing:Boolean;
 			
@@ -26,8 +28,18 @@
 				// listen for when to display video
 				facebookOnYourDesktop.addEventListener("SHOW_VIDEO", showVideo);
 				
+				// places the download button
+				var loader:SWFLoader = new SWFLoader();
+				loader.addEventListener(Event.COMPLETE, function(event:Event):void {
+					var content:DisplayObject = loader.content;
+					var image:Image = new Image();
+					image.source = loader.content;
+					downloadButtonBox.addChild(image);
+				});
+				loader.load("installer/badge.swf");
+				
 				// retrieves the current version in production right now
-//				versionCheck.send();
+		        versionCheck.send();
 				
 				function showVideo():void
 				{
@@ -58,13 +70,22 @@
 			
 			private function versionCheckHandler(event:ResultEvent):void
 			{
-				version += event.result.*[0].toString();
-			}
+				var versionString:String = event.result.*[0].toString();
+				
+				if (versionString != null && versionString.length > 0)
+				{
+					version += "<font color='#666666'>" + event.result.*[0].toString() + "</font>";
+					versionText.visible = true;
+					versionText.includeInLayout = true;
+				}  // if statement
+			}  // versionCheckHandler
 			
 			private function onFault(event:FaultEvent):void
 			{
 				version = "";
-			}
+				versionText.visible = false;
+				versionText.includeInLayout = false;
+			}  // onFault
 		]]>
 	</mx:Script>
 	
@@ -122,13 +143,13 @@
 		</mx:Transition>
 	</mx:transitions>
 	
-	<mx:HTTPService id="versionCheck" url="http://www.facebookdesktop.com/download/version.xml" resultFormat="e4x" result="versionCheckHandler(event)" fault="onFault(event)" />
+	<mx:HTTPService id="versionCheck" url="download/version.xml" resultFormat="e4x" result="versionCheckHandler(event)" fault="onFault(event)" />
 	
 	<mx:VBox height="100%" width="100%" verticalGap="0" horizontalAlign="center">
-	
+		
 		<mx:VBox id="header" width="100%" backgroundColor="white" horizontalAlign="center">
 			<mx:Image id="aa" source="@Embed('assets/images/facebook_desktop_logo.png')" x="129" y="16"
-				useHandCursor="true" buttonMode="true" mouseChildren="false" click="currentState='main'" />
+					  useHandCursor="true" buttonMode="true" mouseChildren="false" click="currentState='main'" />
 		</mx:VBox>
 		
 		<mx:Spacer maxHeight="20" height="10%" />
@@ -141,41 +162,38 @@
 					<components:WindowsMac id="windowsMac" alpha="0" />
 					<components:Connect id="connect" alpha="0" />
 				</mx:ViewStack>
-				<mx:Image source="@Embed('assets/images/get_button.png')" x="514" y="267"
-					useHandCursor="true" buttonMode="true" mouseChildren="false"
-					click="navigateToURL(new URLRequest('http://www.facebookdesktop.com/download.php?src=site'))" />
-				<mx:Text x="528" y="300" htmlText="{getAirText}" color="0x777777" fontSize="9" textAlign="center" />
-				<mx:Text id="versionText" x="550" y="300" htmlText="{version}" color="0x999999" fontSize="9" textAlign="center" visible="false" includeInLayout="false" />
+				<mx:VBox id="downloadButtonBox" x="500" y="250" />
+				<mx:Text id="versionText" x="550" y="295" htmlText="{version}" color="0x999999" fontSize="9" textAlign="center" includeInLayout="false" visible="false" />
 			</mx:Canvas>
 			<mx:HBox width="100%" height="100" verticalScrollPolicy="off" horizontalAlign="center" horizontalGap="50">
 				<mx:VBox horizontalAlign="center">
 					<mx:Image source="@Embed('assets/images/desktop.png')" height="80" horizontalAlign="center"
-						useHandCursor="true" buttonMode="true" mouseChildren="false"
-						click="currentState='main'"/>
+							  useHandCursor="true" buttonMode="true" mouseChildren="false"
+							  click="currentState='main'"/>
 					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Facebook on your desktop"/>
 				</mx:VBox>
 				<mx:VBox horizontalAlign="center">
 					<mx:Image source="@Embed('assets/images/keep_up.png')" height="80" horizontalAlign="center"
-						useHandCursor="true" buttonMode="true" mouseChildren="false"
-						click="currentState='keepUp'" />
+							  useHandCursor="true" buttonMode="true" mouseChildren="false"
+							  click="currentState='keepUp'" />
 					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Keep up with friends"/>
 				</mx:VBox>
 				<mx:VBox horizontalAlign="center">
 					<mx:Image source="@Embed('assets/images/windows_mac.png')" height="80" horizontalAlign="center"
-						useHandCursor="true" buttonMode="true" mouseChildren="false"
-						click="currentState='windowsMac'" />
+							  useHandCursor="true" buttonMode="true" mouseChildren="false"
+							  click="currentState='windowsMac'" />
 					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Windows and Mac"/>
 				</mx:VBox>
 				<mx:VBox horizontalAlign="center">
 					<mx:Image source="@Embed('assets/images/get_connected.png')" height="80" horizontalAlign="center"
-						useHandCursor="true" buttonMode="true" mouseChildren="false"
-						click="currentState='connect'"/>
+							  useHandCursor="true" buttonMode="true" mouseChildren="false"
+							  click="currentState='connect'"/>
 					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Connect with us!"/>
 				</mx:VBox>
 			</mx:HBox>
 		</mx:VBox>
 		
-		<mx:Spacer maxHeight="35" height="100%" />	
+		<mx:Spacer maxHeight="35" height="100%" />  
 		
 		<mx:HBox width="750" height="200" backgroundColor="white" verticalScrollPolicy="off" styleName="newsAndComments">
 			<components:UpdatesPanel />

@@ -3,18 +3,18 @@
 	
 	<mx:Script>
 		<![CDATA[
-		[Bindable] private var updates:String = "<ul><li>We've just made a <a href='http://www.youtube.com/user/facebookdesktop' target='_blank'><font color='#999999'>YouTube page</font></a>!  We're on <a href='http://www.twitter.com/facebookdesktop/' target='_blank'><font color='#999999'>Twitter</font></a> too!</li><br /><li>We're in the <a href='http://www.adobe.com/cfusion/marketplace/index.cfm?event=marketplace.offering&offeringid=18250' target='_blank'><font color='#999999'>AIR Marketplace</font></a>!  Check us out!</li></li><br /><li>If you have some feedback for us, or want to become a fan, do so on the <a href='http://www.facebook.com/apps/application.php?id=95615112563&v=info' target='_blank'><font color='#999999'>Facebook Desktop</font></a> application page!</li></ul>";
+			[Bindable] private var updates:String = "<ul><li>We've just made a <a href='http://www.youtube.com/user/facebookdesktop' target='_blank'><font color='#999999'>YouTube page</font></a>!  We're on <a href='http://www.twitter.com/facebookdesktop/' target='_blank'><font color='#999999'>Twitter</font></a> too!</li><br /><li>We're in the <a href='http://www.adobe.com/cfusion/marketplace/index.cfm?event=marketplace.offering&offeringid=18250' target='_blank'><font color='#999999'>AIR Marketplace</font></a>!  Check us out!</li></li><br /><li>If you have some feedback for us, or want to become a fan, do so on the <a href='http://www.facebook.com/apps/application.php?id=95615112563' target='_blank'><font color='#999999'>Facebook Desktop</font></a> application page!</li></ul>";
 			//[Bindable] private var updates:String = "<ul><li>Our app just got approved to the <a href='http://www.adobe.com/cfusion/marketplace/index.cfm?event=marketplace.offering&offeringid=18250' target='_blank'><font color='#999999'>AIR Marketplace</font></a>!  Check us out!</li><br /><li>If you have some feedback for us, or want to become a fan, do so on the <a href='http://www.facebook.com/apps/application.php?id=95615112563&v=info' target='_blank'><font color='#999999'>Facebook Desktop</font></a> application page!</li><br /><li>We're on <a href='http://www.twitter.com/facebookdesktop/' target='_blank'><font color='#999999'>Twitter</font></a> too!</li></ul>";
 			//[Bindable] private var updates:String = "<ul><li>Our app just got approved to the <a href='http://www.adobe.com/cfusion/marketplace/index.cfm?event=marketplace.offering&offeringid=18250' target='_blank'><font color='#999999'>AIR Marketplace</font></a>!  Check us out!</li><br /><li>We're now in beta!  Download and enjoy!</li><br /><li>If you have some feedback for us, or want to become a fan, do so on the <a href='http://www.facebook.com/apps/application.php?id=95615112563&v=info' target='_blank'><font color='#999999'>Facebook Desktop</font></a> application page!</li><br /><li>We're on <a href='http://www.twitter.com/facebookdesktop/' target='_blank'><font color='#999999'>Twitter</font></a> too!</li></ul>";
 		]]>
 	</mx:Script>
 	
 	<mx:Text fontFamily="Myriad Pro" fontSize="20" fontWeight="normal" color="0x454545"
-		x="40" y="19"
-		text="News &amp; Updates"/>
+			 x="40" y="19"
+			 text="News &amp; Updates"/>
 	
 	<mx:Text fontFamily="Myriad Pro" fontSize="14" fontWeight="normal" color="0x454545" width="300"
-		x="40" y="60"
-		htmlText="{updates}" />
+			 x="40" y="60"
+			 htmlText="{updates}" />
 	
 </mx:Canvas>

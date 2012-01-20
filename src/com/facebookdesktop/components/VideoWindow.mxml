@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off" verticalScrollPolicy="off" creationComplete="init()">
-
+	
 	<mx:Script>
 		<![CDATA[
 			import com.vimeo.VimeoPlayer;
@@ -12,12 +12,12 @@
 			private function init():void
 			{
 				vimeoPlayer = new VimeoPlayer("c3c7fe755f710af5819f270bba86c3f3", 15149595, 640, 372, 9);
-	 			vimeoPlayer.addEventListener(Event.COMPLETE, videoLoaded);
-	 			box.rawChildren.addChild(vimeoPlayer);
-	 			
-	 			function videoLoaded(event:Event):void
-	 			{
-	 			}  // videoLoaded
+				vimeoPlayer.addEventListener(Event.COMPLETE, videoLoaded);
+				box.rawChildren.addChild(vimeoPlayer);
+				
+				function videoLoaded(event:Event):void
+				{
+				}  // videoLoaded
 			}  // init
 			
 			public function close():void
@@ -28,13 +28,13 @@
 			}  // close
 		]]>
 	</mx:Script>
-    
-    <mx:Box id="outerBox" top="8" left="9" width="655" height="382"
-		 	borderStyle="solid" borderThickness="8" borderColor="black"
-		 	horizontalAlign="center" verticalAlign="bottom"
-		 	horizontalScrollPolicy="off" verticalScrollPolicy="off"
-			cornerRadius="10" backgroundColor="white">
-    	<mx:Box id="box" width="640" height="372" backgroundColor="black" />
-    </mx:Box>
+	
+	<mx:Box id="outerBox" top="8" left="9" width="655" height="382"
+			borderStyle="solid" borderThickness="8" cornerRadius="10"
+			borderColor="black" backgroundColor="black"
+			horizontalAlign="center" verticalAlign="bottom"
+			horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:Box id="box" width="640" height="372" backgroundColor="black" />
+	</mx:Box>
 	
 </mx:Canvas>

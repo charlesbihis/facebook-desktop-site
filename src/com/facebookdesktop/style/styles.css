@@ -13,27 +13,27 @@
 
 .newsAndComments
 {
-	backgroundImage: ClassReference("com.facebookdesktop.components.GradientBackground");
-	backgroundSize: "100%";
-	fillColors: #dedede, #ffffff;
-	fillAlphas: 1, 1;
-	cornerRadii: 0.2, 0.2, 0.0, 0.0;
+  backgroundImage: ClassReference("com.facebookdesktop.components.GradientBackground");
+  backgroundSize: "100%";
+  fillColors: #dedede, #ffffff;
+  fillAlphas: 1, 1;
+  cornerRadii: 0.2, 0.2, 0.0, 0.0;
 }
 
 .quoteText
 {
-	font-family: "Myriad Pro";
-	font-size: 15px;
+  font-family: "Myriad Pro";
+  font-size: 15px;
 }
 
 .facebookButton {
-	cornerRadius: 0;
-	fillColors: #5f78ab, #617aac, #617aac, #617aac;
-	color: #ffffff;
-	textRollOverColor: #ffffff;
-	textSelectedColor: #ffffff;
-	borderColor: #29447e;
-	themeColor: #29447e;
+  cornerRadius: 0;
+  fillColors: #5f78ab, #617aac, #617aac, #617aac;
+  color: #ffffff;
+  textRollOverColor: #ffffff;
+  textSelectedColor: #ffffff;
+  borderColor: #29447e;
+  themeColor: #29447e;
 }
 
 /* Can't add Myriad Pro with font-weight bold because of bug in Flex 3.2 SDK (bug #14308).  Fixed in Flex 4, but not for Flex 3

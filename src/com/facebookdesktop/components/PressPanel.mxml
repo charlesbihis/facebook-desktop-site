@@ -12,7 +12,7 @@
 			{
 				quotesArray = new Array();
 				quotesArray.push("I LOVE this thing!  Why didn't someone<br />make this years ago??<br /><br />&nbsp;&nbsp;-Jessica Nagy (Las Vegas, NV)");
-				quotesArray.push("With Facebook Desktop, I can stay<br />online...all the time!<br /><br />&nbsp;&nbsp;-Coby Chan (Los Angeles, CA)");
+				quotesArray.push("With Facebook Desktop, I can stay<br />online...all the time!<br /><br />&nbsp;&nbsp;-<a href='http://www.google.com/'>Coby Chan (Los Angeles, CA)</a>");
 				quotesArray.push("Facebook Desktop is amazing!  It really<br />does help me stay connected to<br /> all of my friends!<br /><br />&nbsp;&nbsp;-Lon Smith (Seattle, WA)");
 				quotesArray.push("Everyone should get Facebook<br />Desktop...seriously!!<br /><br />&nbsp;&nbsp;-Emily To (Miami, FL)");
 				quotesArray.push("Finally!  A Facebook app that I can use!<br /><br />&nbsp;&nbsp;-Francis Santos (Calgary, AB)");
@@ -59,12 +59,12 @@
 	<mx:Image x="30" y="38" source="@Embed('assets/images/quotes.png')" />
 	
 	<mx:Text fontFamily="Myriad Pro" fontSize="20" fontWeight="normal" color="0x666666"
-		x="38" y="15"
-		text="What people are saying..." fontStyle="italic"/>
+			 x="38" y="15"
+			 text="What people are saying..." fontStyle="italic"/>
 	
 	<mx:Text id="quoteTextField1" color="0x666666" styleName="quoteText" letterSpacing="0.3" leading="4"
-		x="70" y="69" />
+			 x="70" y="69" />
 	<mx:Text id="quoteTextField2" color="0x666666" styleName="quoteText"
-		x="70" y="69" />
+			 x="70" y="69" />
 	
 </mx:Canvas>

@@ -7,7 +7,7 @@
 			private var counter:Timer = new Timer(4000);
 			
 			[Bindable] private var htmlText:String = "Never be out of touch with what's going on with your friends.  Get pop-up notifications whenever something new gets posted to your stream!<br /><br />Now, with support for inbox messages, group-invites, event-invites, and friend-requests!";
-		
+			
 			private function init():void
 			{
 				counter.addEventListener(TimerEvent.TIMER, timeTick);
@@ -90,11 +90,11 @@
 	<mx:Image id="pic5" x="35" y="11" source="@Embed('assets/images/keep_up5.png')" alpha="0" />
 	
 	<mx:Text fontFamily="Myriad Pro" fontSize="22" color="0x333333"
-		x="469" y="57" width="242" height="55"
-		text="Keep up with your friends in real time!" />
+			 x="469" y="57" width="242" height="55"
+			 text="Keep up with your friends in real time!" />
 	<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x454545"
-		x="469" y="120" width="299" height="128"
-		textAlign="left" leading="4"
-		htmlText="{htmlText}" />
+			 x="469" y="120" width="299" height="128"
+			 textAlign="left" leading="4"
+			 htmlText="{htmlText}" />
 	
 </mx:Canvas>

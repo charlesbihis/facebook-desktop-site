@@ -14,7 +14,7 @@
 	
 	<mx:Text text="Connect with us!" fontFamily="Myriad Pro" fontSize="22" color="0x333333" x="469" y="57" />
 	<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x454545"
-		x="469" y="105" width="299" height="150"
-		textAlign="left" leading="4" htmlText="{htmlText}" />
-		
+			 x="469" y="105" width="299" height="150"
+			 textAlign="left" leading="4" htmlText="{htmlText}" />
+	
 </mx:Canvas>
