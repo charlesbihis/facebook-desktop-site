@@ -101,10 +101,10 @@
 	
 	<mx:TextInput id="tokenValue" enter="sendVerifyRequest()" />
 	<mx:Canvas height="38">
-		<mx:Label id="successText" text="Your token has been validated!  Enjoy!" color="0x3b5998" fontFamily="Myriad Pro" fontSize="12" fontWeight="bold" alpha="0" top="0" horizontalCenter="0" />
-		<mx:Label id="failText" text="Sorry, your token is invalid" color="red" fontFamily="Myriad Pro" fontSize="12" fontWeight="bold" alpha="0" top="0" horizontalCenter="0" />
-		<mx:Label id="enterCodeText" text="enter your invite code to download" color="0x444444" fontFamily="Myriad Pro" top="0" horizontalCenter="0" />
-		<mx:Text id="cancelButton" text="cancel" click="cancelClicked()" useHandCursor="true" buttonMode="true" mouseChildren="false" color="0x777777" fontFamily="Myriad Pro" bottom="0" horizontalCenter="0" />
+		<mx:Label id="successText" text="Your token has been validated!  Enjoy!" color="0x3b5998" fontFamily="Myriad Pro" fontSize="13" fontWeight="bold" alpha="0" top="0" horizontalCenter="0" />
+		<mx:Label id="failText" text="Sorry, your token is invalid" color="red" fontFamily="Myriad Pro" fontSize="13" fontWeight="bold" alpha="0" top="0" horizontalCenter="0" />
+		<mx:Label id="enterCodeText" text="enter your invite code to download" color="0x444444" fontFamily="Myriad Pro" fontSize="11" top="0" horizontalCenter="0" />
+		<mx:Text id="cancelButton" text="cancel" click="cancelClicked()" useHandCursor="true" buttonMode="true" fontSize="10" mouseChildren="false" color="0x777777" fontFamily="Myriad Pro" bottom="0" horizontalCenter="0" />
 	</mx:Canvas>
 	
 </mx:VBox>

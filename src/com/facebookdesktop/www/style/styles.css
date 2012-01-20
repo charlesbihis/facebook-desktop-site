@@ -1,3 +1,12 @@
+Button
+{
+	up-skin: Embed(source="assets/images/step-off-icon.png");
+	down-skin: Embed(source="assets/images/step-on-icon.png");
+	over-skin: Embed(source="assets/images/step-on-icon.png");
+}
+
+	
+
 @font-face
 {
     src:url("assets/fonts/MyriadPro.swf");
@@ -10,3 +19,19 @@
     fontFamily: "Myriad Pro";
     fontWeight: semi-bold;
 }
+
+@font-face
+{
+    src:url("assets/fonts/MyriadPro.swf");
+    fontFamily: "Myriad Pro";
+    fontWeight: italic;
+}
+
+/* Can't add Myriad Pro with font-weight bold because of bug in Flex 3.2 SDK (bug #14308).  Fixed in Flex 4, but not for Flex 3
+@font-face
+{
+    src:url("assets/fonts/MyriadPro.swf");
+    fontFamily: "Myriad Pro";
+    fontWeight: bold;
+}
+*/
