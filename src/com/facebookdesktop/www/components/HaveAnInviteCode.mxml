@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" horizontalAlign="center">
+	
+	<mx:Metadata>
+        [Event(name="cancelClicked", type="flash.events.Event")]
+    </mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.utils.StringUtil;
+			import flash.net.navigateToURL;
+			import mx.events.EffectEvent;
+			import mx.utils.Base64Encoder;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var timer:Timer;
+			
+			private function sendVerifyRequest():void
+			{
+				tokenValue.enabled = false;
+				
+				// generate parameters
+				var params:Object = new Object();
+				params.value = StringUtil.trim(tokenValue.text);
+				
+				verifyRequest.send(params);
+			}  // sendVerifyRequest
+			
+			private function resultHandler(event:ResultEvent):void
+			{
+				if (event.result as int > 0)
+				{
+					tokenVerified.play();
+					tokenVerified.addEventListener(EffectEvent.EFFECT_END, cancelClicked);
+					
+					timer = new Timer(1000);
+    				timer.addEventListener(TimerEvent.TIMER, giveDownload);
+    				timer.start();
+    				
+    				function giveDownload(event:TimerEvent):void
+    				{
+						navigateToURL(new URLRequest("./download.php?src=token"), "_self");
+						timer.stop();
+    				}  // giveDownload
+				}  // if statement
+				else
+				{
+					tokenFailed.play();
+					tokenFailed.addEventListener(EffectEvent.EFFECT_END, reset);
+					
+					function reset(event:Event):void
+					{
+						tokenValue.enabled = true;
+						resetFromFail.play();
+					}  // reset
+				}  // else statement
+			}  // resultHandler
+			
+			private function faultHandler(event:FaultEvent):void
+			{
+				throw new Error(event.message);
+			}  // faultHandler
+			
+			private function cancelClicked(event:Event = null):void
+			{
+				tokenValue.enabled = true;
+				tokenValue.text = "";
+				successText.alpha = 0;
+				enterCodeText.alpha = 1;
+				cancelButton.alpha = 1;
+				dispatchEvent(new Event("cancelClicked"));
+			}  // cancelClicked
+		]]>
+	</mx:Script>
+	
+	<mx:HTTPService id="verifyRequest" url="./verify-token.php" result="resultHandler(event)" fault="faultHandler(event)" method="POST" />
+	
+	<mx:Sequence id="tokenVerified">
+		<mx:Fade targets="{[enterCodeText, cancelButton]}" duration="200" alphaFrom="1" alphaTo="0" />
+		<mx:Parallel>
+			<mx:Fade target="{successText}" alphaFrom="0" alphaTo="1" duration="250" />
+			<mx:Move target="{successText}" yFrom="{successText.y + 5}" yTo="{successText.y}" duration="250" />
+		</mx:Parallel>
+		<mx:Fade target="{successText}" alphaFrom="1" alphaTo="1" duration="2000" />
+	</mx:Sequence>
+	
+	<mx:Sequence id="tokenFailed">
+		<mx:Fade targets="{[enterCodeText, cancelButton]}" duration="200" alphaFrom="1" alphaTo="0" />
+		<mx:Parallel>
+			<mx:Fade target="{failText}" alphaFrom="0" alphaTo="1" duration="250" />
+			<mx:Move target="{failText}" yFrom="{failText.y + 5}" yTo="{failText.y}" duration="250" />
+		</mx:Parallel>
+		<mx:Fade target="{failText}" alphaFrom="1" alphaTo="1" duration="2000" />
+	</mx:Sequence>
+	
+	<mx:Sequence id="resetFromFail">
+		<mx:Fade target="{failText}" alphaFrom="1" alphaTo="0" duration="200" />
+		<mx:Fade targets="{[enterCodeText, cancelButton]}" duration="200" alphaFrom="0" alphaTo="1" />
+	</mx:Sequence>
+	
+	<mx:TextInput id="tokenValue" enter="sendVerifyRequest()" />
+	<mx:Canvas height="38">
+		<mx:Label id="successText" text="Your token has been validated!  Enjoy!" color="0x3b5998" fontFamily="Myriad Pro" fontSize="12" fontWeight="bold" alpha="0" top="0" horizontalCenter="0" />
+		<mx:Label id="failText" text="Sorry, your token is invalid" color="red" fontFamily="Myriad Pro" fontSize="12" fontWeight="bold" alpha="0" top="0" horizontalCenter="0" />
+		<mx:Label id="enterCodeText" text="enter your invite code to download" color="0x444444" fontFamily="Myriad Pro" top="0" horizontalCenter="0" />
+		<mx:Text id="cancelButton" text="cancel" click="cancelClicked()" useHandCursor="true" buttonMode="true" mouseChildren="false" color="0x777777" fontFamily="Myriad Pro" bottom="0" horizontalCenter="0" />
+	</mx:Canvas>
+	
+</mx:VBox>

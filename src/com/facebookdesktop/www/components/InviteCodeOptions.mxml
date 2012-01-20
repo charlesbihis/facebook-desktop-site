@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" horizontalAlign="center">
+
+	<mx:Metadata>
+        [Event(name="hasAnInvite", type="flash.events.Event")]
+        [Event(name="wantsAnInvite", type="flash.events.Event")]
+    </mx:Metadata>
+
+	<mx:Script>
+		<![CDATA[
+			private function hasAnInvite():void
+			{
+				dispatchEvent(new Event("hasAnInvite"));
+			}  // hasAnInvite
+			
+			private function wantsAnInvite():void
+			{
+				dispatchEvent(new Event("wantsAnInvite"));
+			}  // wantsAnInvite
+		]]>
+	</mx:Script>
+
+	<mx:Text fontSize="15" text="Have an invite code?" color="0x666666" click="hasAnInvite()"
+		useHandCursor="true" buttonMode="true" mouseChildren="false" fontFamily="Myriad Pro" />
+	<mx:Spacer width="5" />
+	<mx:Text fontSize="15" text="Want an invite code?" color="0x666666" click="wantsAnInvite()"
+		useHandCursor="true" buttonMode="true" mouseChildren="false" fontFamily="Myriad Pro" />
+		
+</mx:HBox>

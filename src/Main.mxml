@@ -1,116 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" horizontalAlign="center" paddingTop="15" backgroundGradientColors="[0xFFFFFF, 0xFFFFFF]" xmlns:components="com.facebookdesktop.components.*" creationComplete="currentState='main'">
+<mx:Application
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:components="com.facebookdesktop.www.components.*"
+	layout="vertical" paddingTop="15"
+	backgroundGradientColors="[0xFFFFFF, 0xFFFFFF]">
 
 	<mx:Script>
 		<![CDATA[
 			[Bindable] private var getAirText:String = "<sup>*</sup>Requires Adobe AIR.  Get it <a href='http://get.adobe.com/air/' target='_blank'><font color='#767676'>here</font></a>.";
 			[Bindable] private var footerText:String = "Copyright 2009 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
+			
+			private function cancelClicked():void
+			{
+				currentState = "";
+			}  // cancelClicked
 		]]>
 	</mx:Script>
 	
-	<mx:Style source="com/facebookdesktop/style/styles.css" />
+	<mx:Style source="com/facebookdesktop/www/style/styles.css" />
 	
 	<mx:states>
-		<mx:State name="main">
-			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{facebookOnYourDesktop}" />
+		<mx:State name="hasAnInvite">
+			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{haveAnInvite}" />
 		</mx:State>
-		<mx:State name="keepUp">
-			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{keepUpWithFriends}" />
-		</mx:State>
-		<mx:State name="viewPhotos">
-			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{viewPhotos}" />
-		</mx:State>
-		<mx:State name="engage">
-			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{engage}" />
+		<mx:State name="wantsAnInvite">
+			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{wantAnInvite}" />
 		</mx:State>
 	</mx:states>
 	
 	<mx:transitions>
-		<mx:Transition fromState="main" toState="*">
+		<mx:Transition fromState="" toState="hasAnInvite">
 			<mx:Sequence>
-				<mx:Fade target="{facebookOnYourDesktop}" alphaFrom="1" alphaTo="0" duration="100" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
-				<mx:SetPropertyAction target="{facebookOnYourDesktop}" name="visible" value="false" />
-				<mx:SetPropertyAction target="{facebookOnYourDesktop}" name="includeInLayout" value="false" />
+				<mx:Fade target="{inviteCodeOptions}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:SetPropertyAction target="{haveAnInvite}" name="visible" value="true" />
+				<mx:SetPropertyAction target="{haveAnInvite}" name="includeInLayout" value="true" />
+				<mx:Fade target="{haveAnInvite}" alphaFrom="0" alphaTo="1" duration="200" />
+				<mx:SetPropertyAction target="{inviteCodeOptions}" name="visible" value="false" />
+				<mx:SetPropertyAction target="{inviteCodeOptions}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
-		<mx:Transition fromState="keepUp" toState="*">
+		<mx:Transition fromState="" toState="wantsAnInvite">
 			<mx:Sequence>
-				<mx:Fade target="{keepUpWithFriends}" alphaFrom="1" alphaTo="0" duration="100" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
-				<mx:SetPropertyAction target="{keepUpWithFriends}" name="visible" value="false" />
-				<mx:SetPropertyAction target="{keepUpWithFriends}" name="includeInLayout" value="false" />
+				<mx:Fade target="{inviteCodeOptions}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:SetPropertyAction target="{wantAnInvite}" name="visible" value="true" />
+				<mx:SetPropertyAction target="{wantAnInvite}" name="includeInLayout" value="true" />
+				<mx:Fade target="{wantAnInvite}" alphaFrom="0" alphaTo="1" duration="200" />
+				<mx:SetPropertyAction target="{inviteCodeOptions}" name="visible" value="false" />
+				<mx:SetPropertyAction target="{inviteCodeOptions}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
-		<mx:Transition fromState="viewPhotos" toState="*">
+		<mx:Transition fromState="*" toState="">
 			<mx:Sequence>
-				<mx:Fade target="{viewPhotos}" alphaFrom="1" alphaTo="0" duration="100" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
-				<mx:SetPropertyAction target="{viewPhotos}" name="visible" value="false" />
-				<mx:SetPropertyAction target="{viewPhotos}" name="includeInLayout" value="false" />
-			</mx:Sequence>
-		</mx:Transition>
-		<mx:Transition fromState="engage" toState="*">
-			<mx:Sequence>
-				<mx:Fade target="{engage}" alphaFrom="1" alphaTo="0" duration="100" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
-				<mx:SetPropertyAction target="{engage}" name="visible" value="false" />
-				<mx:SetPropertyAction target="{engage}" name="includeInLayout" value="false" />
+				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:SetPropertyAction target="{inviteCodeOptions}" name="visible" value="true" />
+				<mx:SetPropertyAction target="{inviteCodeOptions}" name="includeInLayout" value="true" />
+				<mx:Fade target="{inviteCodeOptions}" alphaFrom="0" alphaTo="1" duration="200" />
+				<mx:SetPropertyAction target="{mainStack.selectedChild}" name="visible" value="false" />
+				<mx:SetPropertyAction target="{mainStack.selectedChild}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
 	</mx:transitions>
 	
-	<mx:VBox height="100%" width="800" verticalGap="0">
-	
-		<mx:Canvas id="header" width="100%" height="100" backgroundColor="white">
-			<mx:Image source="@Embed('assets/icons/facebookdesktop_icon.png')" height="60" width="60" x="65" y="15" 
-				useHandCursor="true" buttonMode="true" mouseChildren="false" click="currentState='main';" />
-			<mx:Image source="@Embed('assets/images/facebookdesktop_shiny_text.png')" x="129" y="16"
-				useHandCursor="true" buttonMode="true" mouseChildren="false" click="currentState='main'" />
+	<mx:Fade id="slowFade" duration="500" />
+
+	<mx:VBox verticalGap="0" height="100%" horizontalAlign="center" verticalAlign="middle" creationCompleteEffect="slowFade">
+		
+		<mx:Image source="@Embed('assets/images/facebookdesktop_screen_with_logo.png')" />
+		<mx:Spacer height="10" />
+		
+		<!-- Facebook Desktop shiny-text logo and "coming soon" text -->
+		<mx:Canvas>
+			<mx:Image source="@Embed('assets/images/facebookdesktop_shiny_text.png')" height="60"
+				useHandCursor="true" buttonMode="true" mouseChildren="false" />
+			<mx:Text text="coming soon" color="0x666666" x="162" y="42"/>
 		</mx:Canvas>
+		<mx:Spacer height="25" />
 		
-		<mx:VBox width="100%" height="475" verticalGap="0" verticalScrollPolicy="off">
-			<mx:Canvas width="100%" height="100%">
-				<mx:ViewStack id="mainStack" width="100%" height="400" backgroundColor="white">
-					<components:FacebookOnYourDesktop id="facebookOnYourDesktop" />
-					<components:KeepUpWithFriends id="keepUpWithFriends" alpha="0" />
-					<components:ViewPhotos id="viewPhotos" alpha="0" />
-					<components:Engage id="engage" alpha="0" />
-				</mx:ViewStack>
-				<mx:Image source="assets/images/get_button.png" x="514" y="267"
-					useHandCursor="true" buttonMode="true" mouseChildren="false"
-					click="navigateToURL(new URLRequest('http://www.facebookdesktop.com/download/FacebookDesktop.air'))" />
-				<mx:Text x="528" y="300" htmlText="{getAirText}" color="0x999999" fontSize="9" textAlign="center" />
-			</mx:Canvas>
-			<mx:HBox width="100%" height="75" verticalScrollPolicy="off" horizontalAlign="center" horizontalGap="17">
-				<mx:Image source="@Embed('assets/images/get_facebook_button.png')"
-					useHandCursor="true" buttonMode="true" mouseChildren="false"
-					 click="currentState='main'"/>
-				<mx:Image source="@Embed('assets/images/keep_up_button.png')"
-					useHandCursor="true" buttonMode="true" mouseChildren="false"
-					click="currentState='keepUp'" />
-				<mx:Image source="@Embed('assets/images/view_photos_button.png')"
-					useHandCursor="true" buttonMode="true" mouseChildren="false"
-					click="currentState='viewPhotos'" />
-				<mx:Image source="@Embed('assets/images/engage_button.png')"
-					useHandCursor="true" buttonMode="true" mouseChildren="false"
-					click="currentState='engage'"/>
-			</mx:HBox>
-		</mx:VBox>
-		
-		<mx:Spacer height="10" />
-		
-		<mx:HBox width="100%" height="200" backgroundColor="white" verticalScrollPolicy="off">
-			<components:UpdatesPanel />
-			<components:PressPanel />
-		</mx:HBox>
-		
-		<mx:Spacer height="10" />
-		
-		<mx:VBox width="100%" horizontalAlign="center">
-			<mx:Text htmlText="{footerText}" color="0x999999" fontSize="9" textAlign="center" />
-		</mx:VBox>
-		
+		<!-- Invite-code options view-stack -->
+		<mx:ViewStack id="mainStack" width="100%" height="90">
+			<components:InviteCodeOptions id="inviteCodeOptions" hasAnInvite="currentState='hasAnInvite'" wantsAnInvite="currentState='wantsAnInvite'" />
+			<components:HaveAnInviteCode id="haveAnInvite" cancelClicked="cancelClicked()" alpha="0" />
+			<components:WantAnInviteCode id="wantAnInvite" cancelClicked="cancelClicked()" alpha="0" />
+		</mx:ViewStack>
+
+	</mx:VBox>
+	
+	<!-- Footer -->
+	<mx:VBox width="100%" horizontalAlign="center">
+		<mx:Text htmlText="{footerText}" color="0x999999" fontSize="9" textAlign="center" />
 	</mx:VBox>
 	
 </mx:Application>
