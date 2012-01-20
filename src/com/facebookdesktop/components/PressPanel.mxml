@@ -11,16 +11,16 @@
 			private function init():void
 			{
 				quotesArray = new Array();
-				quotesArray.push("I LOVE this thing!  Why didn't someone<br />make this years ago??<br /><br />&nbsp;&nbsp;-Jessica Nagy (Las Vegas, NV)");
-				quotesArray.push("With Facebook Desktop, I can stay<br />online...all the time!<br /><br />&nbsp;&nbsp;-<a href='http://www.google.com/'>Coby Chan (Los Angeles, CA)</a>");
-				quotesArray.push("Facebook Desktop is amazing!  It really<br />does help me stay connected to<br /> all of my friends!<br /><br />&nbsp;&nbsp;-Lon Smith (Seattle, WA)");
-				quotesArray.push("Everyone should get Facebook<br />Desktop...seriously!!<br /><br />&nbsp;&nbsp;-Emily To (Miami, FL)");
-				quotesArray.push("Finally!  A Facebook app that I can use!<br /><br />&nbsp;&nbsp;-Francis Santos (Calgary, AB)");
-				quotesArray.push("I love the update messages.  It works<br />just like you'd expect it to.  I use it<br />every day!<br /><br />&nbsp;&nbsp;-Jessamine Lao");
-				quotesArray.push("I'm on Facebook so much more because<br />of [Facebook Desktop].  I don't have to be<br />scared of my boss seeing a Facebook<br />page open.  Now, I can just use<br />Facebook Desktop!<br /><br />&nbsp;&nbsp;Brandon Mitu (New York, NY)");
-				quotesArray.push("I like turtles.<br /><br />&nbsp;&nbsp;-Zombie Kid");
-				quotesArray.push("The notification messages are so useful.<br />Now, I can just keep Facebook minimized<br />and get notices when my friends<br />post something!<br /><br />&nbsp;&nbsp;-Jonathan Lim (Vancouver, BC)");
-				quotesArray.push("Facebook Desktop really does keep me<br />connected to my friends.  I never miss an<br />update now!<br /><br />&nbsp;&nbsp;-Joshua Enns (New York, NY)");
+				quotesArray.push("It doesn't have that heavy feel on your<br />laptop, and doesn't demand any screen<br />real estate.<br /><br />&nbsp;&nbsp;- <a href='http://blog.louisgray.com/2010/07/could-you-replace-facebookcom-with.html' target='_blank'>Louis Gray (LouisGray.com)</a>");
+				quotesArray.push("I've been trying this [Facebook Desktop]<br />app out today and I think it's useful.<br /><br />&nbsp;&nbsp;- <a href='https://twitter.com/#!/AdamNaide/status/26037428129103872' target='_blank'>Adam Naide (CNN Social Media)</a>");
+				quotesArray.push("It's actually somewhat surprising that<br />Facebook itself doesn't already offer<br />something like this.<br /><br />&nbsp;&nbsp;- <a href='http://www.webpronews.com/facebook-desktop-sends-you-notifications-without-browser-2011-01' target='_blank'>Chris Crum (WebProNews.com)</a>");
+				quotesArray.push("An awesome desktop app for Facebook.<br /><br />&nbsp;&nbsp;- <a href='http://aroundsocial.com/tools/facebook-comes-to-desktop-with-facebook-desktop-app/' target='_blank'>Jojo Matthews (AroundSocial.com)</a>");
+				quotesArray.push("Forget popping over to the tab you<br />have open for Facebook and pressing<br />the F5 key over and over again.<br /><br />&nbsp;&nbsp;- <a href='http://blog.games.com/2011/01/14/facebook-game-news-feed/' target='_blank'>Joe Osborne (Games.com)</a>");
+				quotesArray.push("Very unobtrusive, very easy, very simple.<br /><br />&nbsp;&nbsp;- <a href='http://www.youtube.com/watch?v=cTH2KqEY-yE' target='_blank'>Oliver (DoItDeviant Productions)</a>");
+				quotesArray.push("The first Adobe Air app that's<br />worth keeping!<br /><br />&nbsp;&nbsp;- <a href='https://twitter.com/#!/thegraphicmac/status/26316231350943744' target='_blank'>Jim Dempsey (TheGraphicMac.com)</a>");
+				quotesArray.push("I like turtles.<br /><br />&nbsp;&nbsp;- <a href='http://www.youtube.com/watch?v=CMNry4PE93Y' target='_blank'>Zombie Kid</a>");
+				quotesArray.push("Hate to open the browser to check the<br />notifications again and again then<br />[Facebook Desktop] is for you.<br /><br />&nbsp;&nbsp;- <a href='http://www.callingallgeeks.org/7741/facebook-desktop-get-facebook-notifications-on-your-desktop/' target='_blank'>Whiztechy (CallingAllGeeks.org)</a>");
+				quotesArray.push("If you’re looking for a free and easy to<br />use application to keep up with all that<br />is Facebook, [Facebook Desktop] is most<br />definitely for you.<br /><br />&nbsp;&nbsp;- <a href='http://thenextweb.com/apps/2010/09/24/facebook-desktop-brings-facebook-to-you-with-no-need-for-a-web-browser/' target='_blank'>Jeff Cormier (TheNextWeb.com)</a>");
 				
 				quoteTextField1.htmlText = quotesArray[9];
 				
@@ -34,20 +34,26 @@
 				if (showing % 2 == 0)
 				{
 					// change the hidden quote and make it visible
-					quoteTextField2.htmlText = quotesArray[++showing % 10];
+					quoteTextField2.htmlText = quotesArray[showing++ % 10];
 					fadeIn.play([quoteTextField2]);
 					
 					// hide the currently displayed quote
 					fadeOut.play([quoteTextField1]);
+					
+					// move text-field to the front
+					quoteTextField1.parent.setChildIndex(quoteTextField1, 1);
 				}
 				else
 				{
 					// change the hidden quote and make it visible
-					quoteTextField1.htmlText = quotesArray[++showing % 10];
+					quoteTextField1.htmlText = quotesArray[showing++ % 10];
 					fadeIn.play([quoteTextField1]);
 					
 					// hide the currently displayed quote
 					fadeOut.play([quoteTextField2]);
+					
+					// move text-field to the front
+					quoteTextField2.parent.setChildIndex(quoteTextField2, 1);
 				}
 			}  // timeTick
 		]]>
