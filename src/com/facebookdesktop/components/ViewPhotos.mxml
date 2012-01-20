@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="375" creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			private var showingPic1:Boolean = true;
+			private var counter:Timer = new Timer(4000);
+		
+			[Bindable] private var htmlText:String = "View your photos in an exciting and intuitive way.  Experience the ease of photo-viewing...without a browser!";
+			
+			private function init():void
+			{
+				counter.addEventListener(TimerEvent.TIMER, timeTick);
+				counter.start();
+			}  // init
+			
+			private function timeTick(event:TimerEvent):void
+			{
+				if (!showingPic1)
+				{
+					swapImage.play();
+				}  // if statement
+				else
+				{
+					swapImage.play(null, true);
+				}  // else statement
+				
+				showingPic1 = !showingPic1;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Sequence id="swapImage">
+		<mx:Fade target="{pic1}" duration="750" alphaFrom="0" alphaTo="1" />
+		<mx:Fade target="{pic2}" duration="750" alphaFrom="1" alphaTo="0" />
+	</mx:Sequence>
+	
+	<mx:Image id="pic1" x="54" y="45" source="@Embed('assets/images/view_photos_1.png')" />
+	<mx:Image id="pic2" x="54" y="45" source="@Embed('assets/images/view_photos_2.png')" alpha="0" />
+	
+	<mx:Text fontFamily="Myriad Pro" fontSize="22" color="0x333333"
+		x="469" y="57"
+		text="Browse photos seamlessly" />
+	<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x454545"
+		x="469" y="105" width="299" height="128"
+		textAlign="left" leading="4"
+		htmlText="{htmlText}" />
+	
+</mx:Canvas>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="375" creationComplete="init()">
+
+	<mx:Script>
+		<![CDATA[
+			private var showing:int = 1;
+			private var counter:Timer = new Timer(4000);
+			
+			[Bindable] private var htmlText:String = "Engage with your friends easier than ever!  Comment on and like stories, just as you would on the website.";
+		
+			private function init():void
+			{
+				counter.addEventListener(TimerEvent.TIMER, timeTick);
+				counter.start();
+			}  // init
+			
+			private function timeTick(event:TimerEvent):void
+			{
+				switch(showing)
+				{
+					case 1:
+						goToImage2.play();
+						showing = 2;
+						break;
+					case 2:
+						goToImage3.play();
+						showing = 3;
+						break;
+					case 3:
+						goToImage4.play();
+						showing = 4;
+						break;
+					case 4:
+						goToImage5.play();
+						showing = 5;
+						break;
+					case 5:
+						goToImage6.play();
+						showing = 6;
+						break;
+					case 6:
+						goToImage1.play();
+						showing = 1;
+						break;
+				}  // switch statement
+			}  // timeTick
+		]]>
+	</mx:Script>
+	
+	<mx:Parallel id="goToImage1">
+		<mx:Fade target="{pic5}" duration="750" alphaFrom="1" alphaTo="0" />
+		<mx:Fade target="{pic6}" duration="750" alphaFrom="1" alphaTo="0" />
+		<mx:Fade target="{pic1}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToImage2">
+		<mx:Fade target="{pic1}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{pic2}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToImage3">
+		<mx:Fade target="{pic1}" duration="750" alphaFrom="1" alphaTo="0" />
+		<mx:Fade target="{pic2}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{pic3}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToImage4">
+		<mx:Fade target="{pic2}" duration="750" alphaFrom="1" alphaTo="0" />
+		<mx:Fade target="{pic3}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{pic4}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToImage5">
+		<mx:Fade target="{pic3}" duration="750" alphaFrom="1" alphaTo="0" />
+		<mx:Fade target="{pic4}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{pic5}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToImage6">
+		<mx:Fade target="{pic4}" duration="750" alphaFrom="1" alphaTo="0" />
+		<mx:Fade target="{pic5}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{pic6}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+
+	<mx:Image id="pic1" x="54" y="45" source="@Embed('assets/images/interact_1.png')" />
+	<mx:Image id="pic2" x="35" y="35" source="@Embed('assets/images/interact_2.png')" alpha="0" />
+	<mx:Image id="pic3" x="35" y="35" source="@Embed('assets/images/interact_3.png')" alpha="0" />
+	<mx:Image id="pic4" x="35" y="35" source="@Embed('assets/images/interact_4.png')" alpha="0" />
+	<mx:Image id="pic5" x="35" y="35" source="@Embed('assets/images/interact_5.png')" alpha="0" />
+	<mx:Image id="pic6" x="35" y="35" source="@Embed('assets/images/interact_6.png')" alpha="0" />
+	
+	<mx:Text fontFamily="Myriad Pro" fontSize="22" color="0x333333"
+		 x="469" y="57"
+		 text="Engage with your friends" />
+	<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x454545"
+		x="469" y="105" width="299" height="128"
+		textAlign="left" leading="4"
+		htmlText="{htmlText}" />
+	
+</mx:Canvas>

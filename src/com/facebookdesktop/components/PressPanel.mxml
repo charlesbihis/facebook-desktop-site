@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="50%" height="200" creationComplete="init()" verticalScrollPolicy="off">
+	
+	<mx:Script>
+		<![CDATA[
+			private var showing:int = 1;
+			private var counter:Timer = new Timer(4000);
+			
+			private function init():void
+			{
+				counter.addEventListener(TimerEvent.TIMER, timeTick);
+				counter.start();
+			}  // init
+			
+			private function timeTick(event:TimerEvent):void
+			{
+				switch(showing)
+				{
+					case 1:
+						goToQuote2.play();
+						showing = 2;
+						break;
+					case 2:
+						goToQuote3.play();
+						showing = 3;
+						break;
+					case 3:
+						goToQuote4.play();
+						showing = 4;
+						break;
+					case 4:
+						goToQuote5.play();
+						showing = 5;
+						break;
+					case 5:
+						goToQuote6.play();
+						showing = 6;
+						break;
+					case 6:
+						goToQuote1.play();
+						showing = 1;
+						break;
+				}  // switch statement
+			}  // timeTick
+		]]>
+	</mx:Script>
+	
+	<mx:Parallel id="goToQuote1">
+		<mx:Fade target="{quote1}" duration="750" alphaFrom="0" alphaTo="1" />
+		<mx:Fade target="{quote2}" duration="750" alphaFrom="0" alphaTo="0" />
+		<mx:Fade target="{quote3}" duration="750" alphaFrom="0" alphaTo="0" />
+		<mx:Fade target="{quote4}" duration="750" alphaFrom="0" alphaTo="0" />
+		<mx:Fade target="{quote5}" duration="750" alphaFrom="0" alphaTo="0" />
+		<mx:Fade target="{quote6}" duration="750" alphaFrom="1" alphaTo="0" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToQuote2">
+		<mx:Fade target="{quote1}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{quote2}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToQuote3">
+		<mx:Fade target="{quote2}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{quote3}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToQuote4">
+		<mx:Fade target="{quote3}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{quote4}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToQuote5">
+		<mx:Fade target="{quote4}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{quote5}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Parallel id="goToQuote6">
+		<mx:Fade target="{quote5}" duration="750" alphaFrom="1" alphaTo="1" />
+		<mx:Fade target="{quote6}" duration="750" alphaFrom="0" alphaTo="1" />
+	</mx:Parallel>
+	
+	<mx:Image x="10" y="38" source="assets/images/quotes.png" />
+	
+	<mx:Text fontFamily="Myriad Pro" fontSize="20" fontWeight="normal" color="0x666666"
+		x="18" y="19"
+		text="What people are saying..." fontStyle="italic"/>
+		
+	<mx:Image id="quote1" x="5" y="46" source="@Embed('assets/images/quote1.png')"/>
+	<mx:Image id="quote2" x="5" y="46" source="@Embed('assets/images/quote2.png')" alpha="0" />
+	<mx:Image id="quote3" x="5" y="46" source="@Embed('assets/images/quote3.png')" alpha="0" />
+	<mx:Image id="quote4" x="5" y="46" source="@Embed('assets/images/quote4.png')" alpha="0" />
+	<mx:Image id="quote5" x="5" y="46" source="@Embed('assets/images/quote5.png')" alpha="0" />
+	<mx:Image id="quote6" x="5" y="46" source="@Embed('assets/images/quote6.png')" alpha="0" />
+	
+</mx:Canvas>
