@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="375">
+	
+	<mx:Script>
+		<![CDATA[
+			[Bindable] private var htmlText:String = "Have something to say to us?  We want to hear it!  Follow us on any of our community pages!<br /><br /><ul><li><a href='http://www.facebook.com/apps/application.php?id=95615112563&v=info' target='_blank'>Facebook Page</a></li><li><a href='http://www.twitter.com/facebookdesktop' target='_blank'>Twitter Page</a></li><li><a href='http://www.youtube.com/user/facebookdesktop' target='_blank'>YouTube Page</a></li><li><a href='http://www.vimeo.com/facebookdesktop' target='_blank'>Vimeo Page</a></li></ul>";
+		]]>
+	</mx:Script>
+	
+	<mx:Image x="149" y="110" source="@Embed('assets/images/twitter_logo.png')" useHandCursor="true" buttonMode="true" mouseChildren="false" click="navigateToURL(new URLRequest('http://www.twitter.com/facebookdesktop'), '_blank')" />
+	<mx:Image x="175" y="261" source="@Embed('assets/images/facebook_logo_white.png')" useHandCursor="true" buttonMode="true" mouseChildren="false" click="navigateToURL(new URLRequest('http://www.facebook.com/apps/application.php?id=95615112563&amp;v=info'), '_blank')" />
+	<mx:Image x="90" y="34" source="@Embed('assets/images/youtube_logo.png')" useHandCursor="true" buttonMode="true" mouseChildren="false" click="navigateToURL(new URLRequest('http://www.youtube.com/user/facebookdesktop'), '_blank')" />
+	<mx:Image x="71" y="177" source="@Embed('assets/images/vimeo_logo.png')" useHandCursor="true" buttonMode="true" mouseChildren="false" click="navigateToURL(new URLRequest('http://vimeo.com/facebookdesktop/'), '_blank')" />
+	
+	<mx:Text text="Connect with us!" fontFamily="Myriad Pro" fontSize="22" color="0x333333" x="469" y="57" />
+	<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x454545"
+		x="469" y="105" width="299" height="150"
+		textAlign="left" leading="4" htmlText="{htmlText}" />
+		
+</mx:Canvas>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="50%" height="200" creationComplete="init()" verticalScrollPolicy="off">
+	
+	<mx:Script>
+		<![CDATA[
+			private var showing:int = 0;
+			private var counter:Timer = new Timer(4000);
+			
+			[Bindable] private var quotesArray:Array;
+			
+			private function init():void
+			{
+				quotesArray = new Array();
+				quotesArray.push("I LOVE this thing!  Why didn't someone<br />make this years ago??<br /><br />&nbsp;&nbsp;-Jessica Nagy (Las Vegas, NV)");
+				quotesArray.push("With Facebook Desktop, I can stay<br />online...all the time!<br /><br />&nbsp;&nbsp;-Coby Chan (Los Angeles, CA)");
+				quotesArray.push("Facebook Desktop is amazing!  It really<br />does help me stay connected to<br /> all of my friends!<br /><br />&nbsp;&nbsp;-Lon Smith (Seattle, WA)");
+				quotesArray.push("Everyone should get Facebook<br />Desktop...seriously!!<br /><br />&nbsp;&nbsp;-Emily To (Miami, FL)");
+				quotesArray.push("Finally!  A Facebook app that I can use!<br /><br />&nbsp;&nbsp;-Francis Santos (Calgary, AB)");
+				quotesArray.push("I love the update messages.  It works<br />just like you'd expect it to.  I use it<br />every day!<br /><br />&nbsp;&nbsp;-Jessamine Lao");
+				quotesArray.push("I'm on Facebook so much more because<br />of [Facebook Desktop].  I don't have to be<br />scared of my boss seeing a Facebook<br />page open.  Now, I can just use<br />Facebook Desktop!<br /><br />&nbsp;&nbsp;Brandon Mitu (New York, NY)");
+				quotesArray.push("I like turtles.<br /><br />&nbsp;&nbsp;-Zombie Kid");
+				quotesArray.push("The notification messages are so useful.<br />Now, I can just keep Facebook minimized<br />and get notices when my friends<br />post something!<br /><br />&nbsp;&nbsp;-Jonathan Lim (Vancouver, BC)");
+				quotesArray.push("Facebook Desktop really does keep me<br />connected to my friends.  I never miss an<br />update now!<br /><br />&nbsp;&nbsp;-Joshua Enns (New York, NY)");
+				
+				quoteTextField1.htmlText = quotesArray[9];
+				
+				counter.addEventListener(TimerEvent.TIMER, timeTick);
+				counter.start();
+			}  // init
+			
+			private function timeTick(event:TimerEvent):void
+			{
+				showing = showing % 10;
+				if (showing % 2 == 0)
+				{
+					// change the hidden quote and make it visible
+					quoteTextField2.htmlText = quotesArray[++showing % 10];
+					fadeIn.play([quoteTextField2]);
+					
+					// hide the currently displayed quote
+					fadeOut.play([quoteTextField1]);
+				}
+				else
+				{
+					// change the hidden quote and make it visible
+					quoteTextField1.htmlText = quotesArray[++showing % 10];
+					fadeIn.play([quoteTextField1]);
+					
+					// hide the currently displayed quote
+					fadeOut.play([quoteTextField2]);
+				}
+			}  // timeTick
+		]]>
+	</mx:Script>
+	
+	<mx:Fade id="fadeOut" duration="1000" alphaFrom="1" alphaTo="0" />
+	<mx:Fade id="fadeIn" duration="1000" alphaFrom="0" alphaTo="1" />
+	
+	<mx:Image x="30" y="38" source="@Embed('assets/images/quotes.png')" />
+	
+	<mx:Text fontFamily="Myriad Pro" fontSize="20" fontWeight="normal" color="0x666666"
+		x="38" y="15"
+		text="What people are saying..." fontStyle="italic"/>
+	
+	<mx:Text id="quoteTextField1" color="0x666666" styleName="quoteText" letterSpacing="0.3" leading="4"
+		x="70" y="69" />
+	<mx:Text id="quoteTextField2" color="0x666666" styleName="quoteText"
+		x="70" y="69" />
+	
+</mx:Canvas>

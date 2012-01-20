@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="375" creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			
+			[Bindable] private var htmlText:String = "Bring the experience of Facebook straight to your desktop without the need for a browser!  No more checking online for updates or new stories.  Have them pushed straight to you!<br /><br />Just open up Facebook Desktop, and stay connected all the time!";
+			
+			private function init():void
+			{
+			}  // init
+			
+			private function openVideo():void
+			{
+				dispatchEvent(new Event("SHOW_VIDEO"));
+			}  // openVideo
+		]]>
+	</mx:Script>
+	
+	<mx:Image id="playVideoImage" x="65" y="50" source="@Embed('assets/images/video_screen.png')"
+			click="openVideo()" useHandCursor="true" buttonMode="true" mouseChildren="false" />
+	
+	<mx:Text fontFamily="Myriad Pro" fontSize="22" color="0x333333"
+		x="469" y="57"
+		text="Get Facebook on your desktop"/>
+	<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x454545"
+		x="469" y="105" width="299" height="128"
+		textAlign="left" leading="4" htmlText="{htmlText}" />
+		
+</mx:Canvas>

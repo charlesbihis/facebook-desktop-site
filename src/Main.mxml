@@ -1,144 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application
-	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:components="com.facebookdesktop.www.components.*"
-	layout="vertical" horizontalAlign="center" paddingTop="15" 
-	backgroundGradientColors="[0xFFFFFF, 0xFFFFFF]" creationComplete="init()">
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:components="com.facebookdesktop.components.*"
+	layout="vertical" horizontalAlign="center"
+	paddingTop="25" backgroundGradientColors="[0xFFFFFF, 0xFFFFFF]"
+	creationComplete="init()">
 
 	<mx:Script>
 		<![CDATA[
-			[Bindable] private var getAirText:String = "<sup>*</sup>Requires Adobe AIR.  Get it <a href='http://get.adobe.com/air/' target='_blank'><font color='#767676'>here</font></a>.";
-			[Bindable] private var footerText:String = "Copyright 2009 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
-			[Bindable] private var fadeSpeed:int;
+			import com.facebookdesktop.components.VideoWindow;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
-			private var timer:Timer;
-			private var count:int = 1;
+			[Bindable] private var getAirText:String = "<sup>*</sup>Requires Adobe AIR.  Get it <a href='http://get.adobe.com/air/' target='_blank'><font color='#444444'>here</font></a>.";
+			[Bindable] private var version:String = "<sup>*</sup>current version is ";
+			[Bindable] private var footerText:String = "Copyright 2010 Charles Bihis.  All rights reserved.<br />Use of Facebook Desktop signifies your agreement to the <a href='http://www.facebookdesktop.com/terms-of-use/' target='_blank'>Terms of Use</a> and <a href='http://www.facebookdesktop.com/privacy' target='_blank'>Privacy Policy</a>";
+			
+			private var videoShowing:Boolean;
 			
 			private function init():void
 			{
-				showMain();
+				currentState = "main";
 				
-				timer = new Timer(6000);
-				timer.addEventListener(TimerEvent.TIMER, changeStatus);
-				timer.start();
+				// listen for when to display video
+				facebookOnYourDesktop.addEventListener("SHOW_VIDEO", showVideo);
 				
-				function changeStatus(event:TimerEvent):void
+				// retrieves the current version in production right now
+//				versionCheck.send();
+				
+				function showVideo():void
 				{
-					if (count % 4 == 0)
-						showMain(true);
-					else if (count % 4 == 1)
-						showKeepUp(true);
-					else if (count % 4 == 2)
-						showEngage(true);
-					else if (count % 4 == 3)
-						showGetConnected(true);
-						
-					count++;
-				}
+					addEventListener(MouseEvent.CLICK, closeVideo);
+					
+					var videoWindow:VideoWindow = new VideoWindow();
+					videoWindow.addEventListener(flash.events.FocusEvent.FOCUS_OUT, closeVideo);
+					videoShowing = true;
+					
+					blurThis.play();
+					
+					PopUpManager.addPopUp(videoWindow, outerBox);
+					PopUpManager.centerPopUp(videoWindow);
+					
+					function closeVideo(event:Event = null):void
+					{
+						if (videoShowing && event != null && event.target != facebookOnYourDesktop.playVideoImage)
+						{
+							removeEventListener(MouseEvent.CLICK, closeVideo);
+							
+							videoShowing = false;
+							videoWindow.close();
+							blurThis.play(null, true);
+						}  // if statement
+					}  // closeVideo
+				}  // showVideo
 			}  // init
 			
-			private function showMain(slow:Boolean = false):void
+			private function versionCheckHandler(event:ResultEvent):void
 			{
-				if (slow)
-				{
-					fadeSpeed = 1000;
-				}
-				else
-				{
-					fadeSpeed = 200;
-					pauseTimer();
-				}
-				
-				step1ButtonFade.play();
-				if (step2ButtonOffImage.alpha != 0) step2ButtonFade.play(null, true);
-				if (step3ButtonOffImage.alpha != 0) step3ButtonFade.play(null, true);
-				if (step4ButtonOffImage.alpha != 0) step4ButtonFade.play(null, true);
-				
-				currentState = "main";
-			}  // showMain
+				version += event.result.*[0].toString();
+			}
 			
-			private function showKeepUp(slow:Boolean = false):void
+			private function onFault(event:FaultEvent):void
 			{
-				if (slow)
-				{
-					fadeSpeed = 1000;
-				}
-				else
-				{
-					fadeSpeed = 200;
-					pauseTimer();
-				}
-				
-				if (step1ButtonOffImage.alpha != 0) step1ButtonFade.play(null, true);
-				step2ButtonFade.play();
-				if (step3ButtonOffImage.alpha != 0) step3ButtonFade.play(null, true);
-				if (step4ButtonOffImage.alpha != 0) step4ButtonFade.play(null, true);
-				
-				currentState = "keepUp";
-			}  // showKeepUp
-			
-			private function showEngage(slow:Boolean = false):void
-			{
-				if (slow)
-				{
-					fadeSpeed = 1000;
-				}
-				else
-				{
-					fadeSpeed = 200;
-					pauseTimer();
-				}
-				
-				if (step1ButtonOffImage.alpha != 0) step1ButtonFade.play(null, true);
-				if (step2ButtonOffImage.alpha != 0) step2ButtonFade.play(null, true);
-				step3ButtonFade.play();
-				if (step4ButtonOffImage.alpha != 0) step4ButtonFade.play(null, true);
-				
-				currentState = "engage";
-			}  // showEngage
-			
-			private function showGetConnected(slow:Boolean = false):void
-			{
-				if (slow)
-				{
-					fadeSpeed = 1000;
-				}
-				else
-				{
-					fadeSpeed = 200;
-					pauseTimer();
-				}
-				
-				if (step1ButtonOffImage.alpha != 0) step1ButtonFade.play(null, true);
-				if (step2ButtonOffImage.alpha != 0) step2ButtonFade.play(null, true);
-				if (step3ButtonOffImage.alpha != 0) step3ButtonFade.play(null, true);
-				step4ButtonFade.play();
-				
-				currentState = "getConnected";
-			}  // showGetConnected
-			
-			private function pauseTimer():void
-			{
-				if (timer)
-				{
-					trace("Pausing the timer...");
-					timer.stop();
-							
-					var restartTimer:Timer = new Timer(7000);
-					restartTimer.addEventListener(TimerEvent.TIMER, restart);
-					restartTimer.start();
-				}  // if statement
-				
-				function restart(event:TimerEvent):void
-				{
-					trace("Timer restarted");
-					timer.start();
-					restartTimer.stop();
-				}  // restart
-			}  // pauseTimer
+				version = "";
+			}
 		]]>
 	</mx:Script>
 	
-	<mx:Style source="com/facebookdesktop/www/style/styles.css" />
+	<mx:Style source="com/facebookdesktop/style/styles.css" />
+	
+	<mx:Blur id="blurThis" target="{this}" blurXFrom="0" blurXTo="6" blurYFrom="0" blurYTo="6" duration="250" />
 	
 	<mx:states>
 		<mx:State name="main">
@@ -147,107 +79,110 @@
 		<mx:State name="keepUp">
 			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{keepUpWithFriends}" />
 		</mx:State>
-		<mx:State name="engage">
-			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{engage}" />
+		<mx:State name="windowsMac">
+			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{windowsMac}" />
 		</mx:State>
-		<mx:State name="getConnected">
-			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{getConnected}" />
+		<mx:State name="connect">
+			<mx:SetProperty target="{mainStack}" name="selectedChild" value="{connect}" />
 		</mx:State>
 	</mx:states>
 	
 	<mx:transitions>
 		<mx:Transition fromState="main" toState="*">
 			<mx:Sequence>
-				<mx:Fade target="{facebookOnYourDesktop}" alphaFrom="1" alphaTo="0" duration="{fadeSpeed}" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="{fadeSpeed}" />
+				<mx:Fade target="{facebookOnYourDesktop}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
 				<mx:SetPropertyAction target="{facebookOnYourDesktop}" name="visible" value="false" />
 				<mx:SetPropertyAction target="{facebookOnYourDesktop}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
 		<mx:Transition fromState="keepUp" toState="*">
 			<mx:Sequence>
-				<mx:Fade target="{keepUpWithFriends}" alphaFrom="1" alphaTo="0" duration="{fadeSpeed}" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="{fadeSpeed}" />
+				<mx:Fade target="{keepUpWithFriends}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
 				<mx:SetPropertyAction target="{keepUpWithFriends}" name="visible" value="false" />
 				<mx:SetPropertyAction target="{keepUpWithFriends}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
-		<mx:Transition fromState="engage" toState="*">
+		<mx:Transition fromState="windowsMac" toState="*">
 			<mx:Sequence>
-				<mx:Fade target="{engage}" alphaFrom="1" alphaTo="0" duration="{fadeSpeed}" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="{fadeSpeed}" />
-				<mx:SetPropertyAction target="{engage}" name="visible" value="false" />
-				<mx:SetPropertyAction target="{engage}" name="includeInLayout" value="false" />
+				<mx:Fade target="{windowsMac}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
+				<mx:SetPropertyAction target="{windowsMac}" name="visible" value="false" />
+				<mx:SetPropertyAction target="{windowsMac}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
-		<mx:Transition fromState="getConnected" toState="*">
+		<mx:Transition fromState="connect" toState="*">
 			<mx:Sequence>
-				<mx:Fade target="{getConnected}" alphaFrom="1" alphaTo="0" duration="{fadeSpeed}" />
-				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="{fadeSpeed}" />
-				<mx:SetPropertyAction target="{getConnected}" name="visible" value="false" />
-				<mx:SetPropertyAction target="{getConnected}" name="includeInLayout" value="false" />
+				<mx:Fade target="{connect}" alphaFrom="1" alphaTo="0" duration="100" />
+				<mx:Fade target="{mainStack.selectedChild}" alphaFrom="0" alphaTo="1" duration="200" />
+				<mx:SetPropertyAction target="{connect}" name="visible" value="false" />
+				<mx:SetPropertyAction target="{connect}" name="includeInLayout" value="false" />
 			</mx:Sequence>
 		</mx:Transition>
 	</mx:transitions>
 	
-	<mx:Parallel id="step1ButtonFade">
-		<mx:Fade target="{step1ButtonOnImage}" alphaFrom="0.5" alphaTo="0" />
-		<mx:Fade target="{step1ButtonOffImage}" alphaFrom="0" alphaTo="1" />
-	</mx:Parallel>
-	<mx:Parallel id="step2ButtonFade">
-		<mx:Fade target="{step2ButtonOnImage}" alphaFrom="0.5" alphaTo="0" />
-		<mx:Fade target="{step2ButtonOffImage}" alphaFrom="0" alphaTo="1" />
-	</mx:Parallel>
-	<mx:Parallel id="step3ButtonFade">
-		<mx:Fade target="{step3ButtonOnImage}" alphaFrom="0.5" alphaTo="0" />
-		<mx:Fade target="{step3ButtonOffImage}" alphaFrom="0" alphaTo="1" />
-	</mx:Parallel>
-	<mx:Parallel id="step4ButtonFade">
-		<mx:Fade target="{step4ButtonOnImage}" alphaFrom="0.5" alphaTo="0" />
-		<mx:Fade target="{step4ButtonOffImage}" alphaFrom="0" alphaTo="1" />
-	</mx:Parallel>
+	<mx:HTTPService id="versionCheck" url="http://www.facebookdesktop.com/download/version.xml" resultFormat="e4x" result="versionCheckHandler(event)" fault="onFault(event)" />
 	
-	<mx:VBox height="100%" width="100%" verticalGap="0" verticalAlign="middle" horizontalAlign="center">
-		
-		<mx:Canvas>
-			<mx:Image source="@Embed('assets/images/facebookdesktop_shiny_text_big.png')" height="60"
-				useHandCursor="true" buttonMode="true" mouseChildren="false" />
-			<mx:Text text="coming soon" color="0x666666" x="162" y="42"/>
-		</mx:Canvas>
+	<mx:VBox height="100%" width="100%" verticalGap="0" horizontalAlign="center">
 	
-		<mx:Spacer height="20" />
-
-		<mx:VBox width="100%" verticalGap="0" verticalScrollPolicy="off" horizontalAlign="center">
-			<mx:ViewStack id="mainStack" height="400" backgroundColor="white">
-				<components:FacebookOnYourDesktop id="facebookOnYourDesktop" />
-				<components:KeepUpWithFriends id="keepUpWithFriends" alpha="0" />
-				<components:Engage id="engage" alpha="0" />
-				<components:GetConnected id="getConnected" alpha="0" />
-			</mx:ViewStack>
+		<mx:VBox id="header" width="100%" backgroundColor="white" horizontalAlign="center">
+			<mx:Image id="aa" source="@Embed('assets/images/facebook_desktop_logo.png')" x="129" y="16"
+				useHandCursor="true" buttonMode="true" mouseChildren="false" click="currentState='main'" />
 		</mx:VBox>
 		
-		<mx:HBox x="500" y="267" horizontalGap="50">
-			<mx:Canvas useHandCursor="true" buttonMode="true" mouseChildren="false" click="showMain()">
-				<mx:Image id="step1ButtonOffImage" source="@Embed('assets/images/step-off-icon.png')" alpha="0.5" />
-				<mx:Image id="step1ButtonOnImage" source="@Embed('assets/images/step-on-icon.png')" alpha="0" />
+		<mx:Spacer maxHeight="20" height="10%" />
+		
+		<mx:VBox id="outerBox" width="100%" height="500" verticalGap="0" verticalScrollPolicy="off" horizontalAlign="center">
+			<mx:Canvas width="800" height="380" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:ViewStack id="mainStack" width="100%" backgroundColor="white">
+					<components:FacebookOnYourDesktop id="facebookOnYourDesktop" />
+					<components:KeepUpWithFriends id="keepUpWithFriends" alpha="0" />
+					<components:WindowsMac id="windowsMac" alpha="0" />
+					<components:Connect id="connect" alpha="0" />
+				</mx:ViewStack>
+				<mx:Image source="@Embed('assets/images/get_button.png')" x="514" y="267"
+					useHandCursor="true" buttonMode="true" mouseChildren="false"
+					click="navigateToURL(new URLRequest('http://www.facebookdesktop.com/download.php?src=site'))" />
+				<mx:Text x="528" y="300" htmlText="{getAirText}" color="0x777777" fontSize="9" textAlign="center" />
+				<mx:Text id="versionText" x="550" y="300" htmlText="{version}" color="0x999999" fontSize="9" textAlign="center" visible="false" includeInLayout="false" />
 			</mx:Canvas>
-			<mx:Canvas useHandCursor="true" buttonMode="true" mouseChildren="false" click="showKeepUp()">
-				<mx:Image id="step2ButtonOffImage" source="@Embed('assets/images/step-off-icon.png')" alpha="0.5" />
-				<mx:Image id="step2ButtonOnImage" source="@Embed('assets/images/step-on-icon.png')" alpha="0" />
-			</mx:Canvas>
-			<mx:Canvas useHandCursor="true" buttonMode="true" mouseChildren="false" click="showEngage()">
-				<mx:Image id="step3ButtonOffImage" source="@Embed('assets/images/step-off-icon.png')" alpha="0.5" />
-				<mx:Image id="step3ButtonOnImage" source="@Embed('assets/images/step-on-icon.png')" alpha="0" />
-			</mx:Canvas>
-			<mx:Canvas useHandCursor="true" buttonMode="true" mouseChildren="false" click="showGetConnected()">
-				<mx:Image id="step4ButtonOffImage" source="@Embed('assets/images/step-off-icon.png')" alpha="0.5" />
-				<mx:Image id="step4ButtonOnImage" source="@Embed('assets/images/step-on-icon.png')" alpha="0" />
-			</mx:Canvas>
+			<mx:HBox width="100%" height="100" verticalScrollPolicy="off" horizontalAlign="center" horizontalGap="50">
+				<mx:VBox horizontalAlign="center">
+					<mx:Image source="@Embed('assets/images/desktop.png')" height="80" horizontalAlign="center"
+						useHandCursor="true" buttonMode="true" mouseChildren="false"
+						click="currentState='main'"/>
+					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Facebook on your desktop"/>
+				</mx:VBox>
+				<mx:VBox horizontalAlign="center">
+					<mx:Image source="@Embed('assets/images/keep_up.png')" height="80" horizontalAlign="center"
+						useHandCursor="true" buttonMode="true" mouseChildren="false"
+						click="currentState='keepUp'" />
+					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Keep up with friends"/>
+				</mx:VBox>
+				<mx:VBox horizontalAlign="center">
+					<mx:Image source="@Embed('assets/images/windows_mac.png')" height="80" horizontalAlign="center"
+						useHandCursor="true" buttonMode="true" mouseChildren="false"
+						click="currentState='windowsMac'" />
+					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Windows and Mac"/>
+				</mx:VBox>
+				<mx:VBox horizontalAlign="center">
+					<mx:Image source="@Embed('assets/images/get_connected.png')" height="80" horizontalAlign="center"
+						useHandCursor="true" buttonMode="true" mouseChildren="false"
+						click="currentState='connect'"/>
+					<mx:Text fontFamily="Myriad Pro" fontSize="14" color="0x333333" htmlText="Connect with us!"/>
+				</mx:VBox>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<mx:Spacer maxHeight="35" height="100%" />	
+		
+		<mx:HBox width="750" height="200" backgroundColor="white" verticalScrollPolicy="off" styleName="newsAndComments">
+			<components:UpdatesPanel />
+			<components:PressPanel />
 		</mx:HBox>
 		
-		<mx:Spacer height="50" />
-		<components:InviteCodeBox />
-		<mx:Spacer height="50" />
+		<mx:Spacer maxHeight="55" height="100%" />
 		
 		<mx:VBox width="100%" horizontalAlign="center">
 			<mx:Text htmlText="{footerText}" color="0x999999" fontSize="9" textAlign="center" />
