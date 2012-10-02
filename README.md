@@ -1,7 +1,5 @@
 # Facebook Desktop Website
 
-Website for Facebook Desktop
-
 ## Overview
 
 Website for Facebook Desktop.
